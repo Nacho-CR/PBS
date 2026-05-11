@@ -11,8 +11,10 @@ I'm basically following the PWA tutorial from: https://github.com/iamshaunjp/pwa
 ## Step1 created the 4 basic files
 Using VS Code created: index.html, style.css, script.js & this README.md
 
-doc \<Tab\>  creates the html boilerplate
-
+Created the html boilerplate typing
+```
+doc \<Tab\>  
+```
 
 To resize the icons I used: https://www.adobe.com/express/feature/image/resize/png
 CSS templates downloaded from: https://materializecss.com/getting-started.html
