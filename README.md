@@ -29,7 +29,14 @@ To resize the icon I used: https://www.adobe.com/express/feature/image/resize/pn
 And save three copies in three different sizes in a new directory called assets 
 
 Then I created the file manifest.json 
-Google docs regarding manifests: https://developers.google.com/web/fundamentals/web-app-manifest
+Google docs regarding manifests: https://developers.google.com/web/fundamentals/web-app-manifest,
+
+https://web.dev/articles/customize-install,
+
+https://developer.chrome.com/docs/lighthouse/pwa/installable-manifest,
+
+https://github.com/GoogleChrome/lighthouse/blob/HEAD/docs/user-flows.md
+
 and https://web.dev/articles/add-manifest
 
 ## Step3 create the service worker
