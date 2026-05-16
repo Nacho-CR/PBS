@@ -146,7 +146,6 @@ const Icons = {
   CheckCircle2: '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>'
 };
 
-
 class App {
   constructor(containerId) {
     this.container = document.getElementById(containerId);
@@ -154,7 +153,7 @@ class App {
       currentStep: 'setup',
       tournament: null,
       // Setup Form State
-      name: 'Pickle Score',
+      name: 'Evelyn\'s Picklers',
       type: 'team',
       format: 'round-robin',
       players: [],
@@ -332,9 +331,9 @@ class App {
     const { currentStep, tournament } = this.state;
     
     this.container.innerHTML = `
-      <div class="min-h-screen flex flex-col">
+      <div class="app-container">
         ${this.renderHeader()}
-        <main class="flex-grow p-6">
+        <main class="main-content">
           ${currentStep === 'setup' ? this.renderSetup() : this.renderDashboard()}
         </main>
       </div>
@@ -346,22 +345,22 @@ class App {
   renderHeader() {
     const name = this.state.tournament ? this.state.tournament.name : "Pickle Score";
     return `
-      <header class="px-8 py-4 bg-white border-b border-border-subtle flex justify-between items-center shrink-0">
-        <div class="flex items-center gap-3">
-          <div class="text-accent">
+      <header class="header">
+        <div class="header-logo">
+          <div class="logo-icon">
             ${Icons.Trophy}
           </div>
-          <h1 class="text-xl font-bold tracking-tight text-accent uppercase">
+          <h1 class="logo-text">
             ${name}
           </h1>
         </div>
         ${this.state.tournament ? `
-          <button id="reset-btn" class="w-auto px-4 py-1.5 text-xs font-bold text-text-sub hover:text-rose-500 transition-colors bg-transparent border-0 cursor-pointer">
+          <button id="reset-btn" class="btn btn-text">
             RESET TOURNAMENT
           </button>
         ` : `
-          <div class="text-xs text-text-sub font-medium uppercase tracking-widest hidden sm:block">
-            Scoring App for Pickleball Tournaments
+          <div class="header-status hidden sm-block">
+            Pro Scoring System v1.0
           </div>
         `}
       </header>
@@ -373,54 +372,54 @@ class App {
     const isTeam = type === 'team';
     
     return `
-      <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 h-full">
+      <div class="setup-grid">
         <!-- Configuration Panel -->
-        <section class="bg-white border border-border-subtle rounded-[12px] flex flex-col overflow-hidden shadow-sm">
-          <div class="px-4 py-3 bg-[#FAFAFA] border-b border-border-subtle text-[0.75rem] font-bold text-text-sub uppercase tracking-wider">
+        <section class="panel">
+          <div class="panel-header">
             Setup & Configuration
           </div>
-          <div class="p-6 space-y-6 flex-grow overflow-y-auto">
-            <div class="space-y-4">
-              <div>
-                <label class="block text-sm font-semibold text-text-main mb-2">Tournament Name</label>
-                <input type="text" id="tourney-name" value="${name}" class="w-full px-3 py-2 border border-border-subtle rounded-md text-sm outline-none focus:ring-1 focus:ring-accent" placeholder="e.g. Summer Open Match">
+          <div class="panel-body">
+            <div class="form-group-list">
+              <div class="form-group">
+                <label class="label">Tournament Name</label>
+                <input type="text" id="tourney-name" value="${name}" class="input" placeholder="e.g. Summer Open Match">
               </div>
 
-              <div>
-                <label class="block text-sm font-semibold text-text-main mb-2">Type</label>
-                <div class="space-y-2">
-                  <label class="flex items-center gap-2 text-sm cursor-pointer group">
-                    <input type="radio" name="type" value="team" ${type === 'team' ? 'checked' : ''} class="accent-accent">
-                    <span class="font-medium ${type === 'team' ? 'text-accent' : 'text-text-sub group-hover:text-text-main'}">Team Based</span>
+              <div class="form-group">
+                <label class="label">Type</label>
+                <div class="radio-group">
+                  <label class="radio-label">
+                    <input type="radio" name="type" value="team" ${type === 'team' ? 'checked' : ''}>
+                    <span class="radio-text">Team Based</span>
                   </label>
-                  <label class="flex items-center gap-2 text-sm cursor-pointer group">
-                    <input type="radio" name="type" value="rotating" ${type === 'rotating' ? 'checked' : ''} class="accent-accent">
-                    <span class="font-medium ${type === 'rotating' ? 'text-accent' : 'text-text-sub group-hover:text-text-main'}">Rotating Partners</span>
+                  <label class="radio-label">
+                    <input type="radio" name="type" value="rotating" ${type === 'rotating' ? 'checked' : ''}>
+                    <span class="radio-text">Rotating Partners</span>
                   </label>
                 </div>
               </div>
 
-              <div>
-                <label class="block text-sm font-semibold text-text-main mb-2">Format</label>
-                <div class="space-y-2">
-                  <label class="flex items-center gap-2 text-sm cursor-pointer group">
-                    <input type="radio" name="format" value="round-robin" ${format === 'round-robin' ? 'checked' : ''} class="accent-accent">
-                    <span class="font-medium ${format === 'round-robin' ? 'text-accent' : 'text-text-sub group-hover:text-text-main'}">Round Robin</span>
+              <div class="form-group">
+                <label class="label">Format</label>
+                <div class="radio-group">
+                  <label class="radio-label">
+                    <input type="radio" name="format" value="round-robin" ${format === 'round-robin' ? 'checked' : ''}>
+                    <span class="radio-text">Round Robin</span>
                   </label>
-                  <label class="flex items-center gap-2 text-sm cursor-pointer group">
-                    <input type="radio" name="format" value="ladder" ${format === 'ladder' ? 'checked' : ''} class="accent-accent">
-                    <span class="font-medium ${format === 'ladder' ? 'text-accent' : 'text-text-sub group-hover:text-text-main'}">Ladders</span>
+                  <label class="radio-label">
+                    <input type="radio" name="format" value="ladder" ${format === 'ladder' ? 'checked' : ''}>
+                    <span class="radio-text">Ladders</span>
                   </label>
-                  <label class="flex items-center gap-2 text-sm cursor-pointer group">
-                    <input type="radio" name="format" value="elimination" ${format === 'elimination' ? 'checked' : ''} class="accent-accent">
-                    <span class="font-medium ${format === 'elimination' ? 'text-accent' : 'text-text-sub group-hover:text-text-main'}">Single Elimination</span>
+                  <label class="radio-label">
+                    <input type="radio" name="format" value="elimination" ${format === 'elimination' ? 'checked' : ''}>
+                    <span class="radio-text">Single Elimination</span>
                   </label>
                 </div>
               </div>
             </div>
 
-            <div class="pt-6 border-t border-border-subtle mt-auto">
-              <button id="start-btn" ${((isTeam && teams.length < 2) || (!isTeam && players.length < 2)) ? 'disabled' : ''} class="w-full bg-accent text-white text-sm font-bold py-3 rounded-md hover:bg-opacity-90 disabled:bg-slate-200 disabled:text-text-sub transition-all uppercase tracking-wider cursor-pointer">
+            <div style="margin-top: auto; padding-top: 1.5rem; border-top: 1px solid var(--border);">
+              <button id="start-btn" ${((isTeam && teams.length < 2) || (!isTeam && players.length < 2)) ? 'disabled' : ''} class="btn btn-primary">
                 Start Tournament
               </button>
             </div>
@@ -428,24 +427,24 @@ class App {
         </section>
 
         <!-- Registration Panel -->
-        <section class="bg-white border border-border-subtle rounded-[12px] flex flex-col overflow-hidden shadow-sm">
-          <div class="px-4 py-3 bg-[#FAFAFA] border-b border-border-subtle text-[0.75rem] font-bold text-text-sub uppercase tracking-wider">
+        <section class="panel">
+          <div class="panel-header">
             ${isTeam ? 'Register Teams' : 'Register Players'}
           </div>
-          <div class="p-6 flex flex-col h-full">
-            <div class="space-y-4 mb-6">
-              <div class="flex gap-2">
-                <input type="text" id="new-item-name" value="${isTeam ? newTeamName : newPlayerName}" class="flex-1 px-3 py-2 border border-border-subtle rounded-md text-sm outline-none focus:ring-1 focus:ring-accent placeholder:text-text-sub" placeholder="${isTeam ? 'Team Name' : 'Player Name'}">
-                <button id="add-item-btn" class="w-auto px-4 bg-text-main text-white rounded-md text-sm font-bold cursor-pointer">Add</button>
+          <div class="panel-body" style="display: flex; flex-direction: column;">
+            <div class="form-group" style="margin-bottom: 1.5rem;">
+              <div style="display: flex; gap: 0.5rem;">
+                <input type="text" id="new-item-name" value="${isTeam ? newTeamName : newPlayerName}" class="input" style="flex: 1;" placeholder="${isTeam ? 'Team Name' : 'Player Name'}">
+                <button id="add-item-btn" class="btn btn-secondary">Add</button>
               </div>
             </div>
 
-            <div class="flex-grow overflow-y-auto min-h-[200px]">
-              <div class="space-y-2">
+            <div style="flex-grow: 1; overflow-y: auto; min-height: 200px;">
+              <div class="item-list">
                 ${(isTeam ? teams : players).map(item => `
-                  <div class="flex items-center justify-between px-3 py-2 border border-border-subtle rounded-md group hover:bg-slate-50 transition-colors">
-                    <span class="text-sm font-medium text-text-main">${item.name}</span>
-                    <button class="remove-item-btn text-text-sub hover:text-rose-500 opacity-0 group-hover:opacity-100 transition-all font-bold cursor-pointer" data-id="${item.id}">
+                  <div class="list-item">
+                    <span class="list-item-text">${item.name}</span>
+                    <button class="remove-item-btn remove-btn" data-id="${item.id}">
                       ${Icons.Trash2}
                     </button>
                   </div>
@@ -463,7 +462,7 @@ class App {
     const standings = calculateStandings(tournament.teams, tournament.matches);
     
     return `
-      <div class="lg:grid lg:grid-cols-[280px_1fr_300px] gap-6 h-full items-stretch flex flex-col lg:flex-row">
+      <div class="dashboard-grid">
         ${this.renderStandings(standings)}
         ${this.renderSchedule()}
         ${this.renderStats(standings)}
@@ -473,28 +472,28 @@ class App {
 
   renderStandings(standings) {
     return `
-      <section class="bg-white border border-border-subtle rounded-[12px] flex flex-col overflow-hidden shadow-sm order-2 lg:order-1">
-        <div class="px-4 py-3 bg-[#FAFAFA] border-b border-border-subtle text-[0.75rem] font-bold text-text-sub uppercase tracking-wider">
+      <section class="panel" style="order: 2;">
+        <div class="panel-header">
           Current Standings
         </div>
-        <div class="panel-content overflow-y-auto p-0">
-          <table class="w-full text-xs text-left">
+        <div class="panel-body" style="padding: 0;">
+          <table class="standings-table">
             <thead>
-              <tr class="bg-slate-50/50">
-                <th class="px-4 py-3 text-text-sub font-semibold border-b border-border-subtle uppercase">RK</th>
-                <th class="px-4 py-3 text-text-sub font-semibold border-b border-border-subtle uppercase">Team</th>
-                <th class="px-4 py-3 text-text-sub font-semibold border-b border-border-subtle uppercase text-right">W-L</th>
-                <th class="px-4 py-3 text-text-sub font-semibold border-b border-border-subtle uppercase text-right">+/-</th>
+              <tr>
+                <th>RK</th>
+                <th>Team</th>
+                <th class="text-right">W-L</th>
+                <th class="text-right">+/-</th>
               </tr>
             </thead>
-            <tbody class="divide-y divide-border-subtle">
+            <tbody>
               ${standings.map((row, idx) => `
-                <tr class="hover:bg-slate-50/50 transition-colors">
-                  <td class="px-4 py-3 font-bold text-accent">${idx + 1}</td>
-                  <td class="px-4 py-3 font-semibold text-text-main truncate max-w-[120px]">${row.teamName}</td>
-                  <td class="px-4 py-3 text-right font-medium text-text-sub">${row.won}-${row.lost}</td>
-                  <td class="px-4 py-3 text-right">
-                    <span class="bg-[#EEF2FF] text-accent px-1.5 py-0.5 rounded text-[10px] font-bold">
+                <tr>
+                  <td class="rank-cell">${idx + 1}</td>
+                  <td class="team-cell">${row.teamName}</td>
+                  <td class="text-right" style="color: var(--text-sub); font-weight: 500;">${row.won}-${row.lost}</td>
+                  <td class="text-right">
+                    <span class="diff-badge">
                       ${row.diff > 0 ? '+' : ''}${row.diff}
                     </span>
                   </td>
@@ -512,15 +511,15 @@ class App {
     const completedCount = tournament.matches.filter(m => m.status === 'completed').length;
     
     return `
-      <section class="bg-white border border-border-subtle rounded-[12px] flex flex-col overflow-hidden shadow-sm order-1 lg:order-2 flex-grow">
-        <div class="px-4 py-3 bg-[#FAFAFA] border-b border-border-subtle flex justify-between items-center text-[0.75rem] font-bold text-text-sub uppercase tracking-wider">
+      <section class="panel" style="order: 1; flex-grow: 1;">
+        <div class="panel-header">
           <span>Match Schedule</span>
-          <span class="text-text-sub">
+          <span style="font-weight: 500; opacity: 0.8;">
             ${completedCount} / ${tournament.matches.length} Finished
           </span>
         </div>
-        <div class="p-6 overflow-y-auto space-y-4">
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="panel-body">
+          <div class="match-grid">
             ${tournament.matches
               .filter(m => m.teamAId !== 'BYE' && m.teamBId !== 'BYE')
               .map(match => {
@@ -530,27 +529,27 @@ class App {
                 const isLive = !isTBD && match.status !== 'completed';
                 
                 return `
-                  <div class="p-4 rounded-lg border transition-all ${match.status === 'completed' ? 'bg-slate-50/50 border-border-subtle' : isTBD ? 'bg-slate-50/30 border-border-subtle opacity-50' : 'bg-white border-border-subtle shadow-sm'}">
-                    <div class="flex items-center justify-between mb-3">
-                      <span class="text-[10px] font-bold uppercase tracking-widest text-text-sub">
+                  <div class="match-card ${match.status === 'completed' ? 'completed' : (isTBD ? 'tbd' : '')}">
+                    <div class="match-card-header">
+                      <span class="match-round-label">
                         ${tournament.format === 'elimination' ? (match.round === 3 ? 'Final' : match.round === 2 ? 'Semi-Final' : `Round ${match.round}`) : `Match ${match.round}`}
                       </span>
-                      ${isLive ? '<span class="text-[10px] font-bold text-success animate-pulse">LIVE</span>' : ''}
+                      ${isLive ? '<span class="live-indicator">LIVE</span>' : ''}
                       ${match.status === 'completed' ? `<span class="text-success">${Icons.CheckCircle2}</span>` : ''}
                     </div>
 
-                    <div class="space-y-2">
-                      <div class="flex items-center justify-between gap-4">
-                        <span class="text-[0.875rem] font-medium truncate ${match.status === 'completed' && (match.scoreA || 0) > (match.scoreB || 0) ? 'text-accent' : 'text-text-main'}">
+                    <div class="match-teams">
+                      <div class="match-team">
+                        <span class="team-name ${match.status === 'completed' && (match.scoreA || 0) > (match.scoreB || 0) ? 'winner' : ''}">
                           ${teamA.name}
                         </span>
-                        ${!isTBD ? `<input type="number" data-match-id="${match.id}" data-team="A" value="${match.scoreA !== undefined ? match.scoreA : ''}" class="score-input w-12 h-8 text-center text-sm border border-border-subtle rounded font-bold outline-none focus:border-accent bg-white">` : ''}
+                        ${!isTBD ? `<input type="number" data-match-id="${match.id}" data-team="A" value="${match.scoreA !== undefined ? match.scoreA : ''}" class="score-input">` : ''}
                       </div>
-                      <div class="flex items-center justify-between gap-4">
-                        <span class="text-[0.875rem] font-medium truncate ${match.status === 'completed' && (match.scoreB || 0) > (match.scoreA || 0) ? 'text-accent' : 'text-text-main'}">
+                      <div class="match-team">
+                        <span class="team-name ${match.status === 'completed' && (match.scoreB || 0) > (match.scoreA || 0) ? 'winner' : ''}">
                           ${teamB.name}
                         </span>
-                        ${!isTBD ? `<input type="number" data-match-id="${match.id}" data-team="B" value="${match.scoreB !== undefined ? match.scoreB : ''}" class="score-input w-12 h-8 text-center text-sm border border-border-subtle rounded font-bold outline-none focus:border-accent bg-white">` : ''}
+                        ${!isTBD ? `<input type="number" data-match-id="${match.id}" data-team="B" value="${match.scoreB !== undefined ? match.scoreB : ''}" class="score-input">` : ''}
                       </div>
                     </div>
                   </div>
@@ -569,31 +568,33 @@ class App {
     const avgPts = completed.length ? (totalPoints / completed.length).toFixed(1) : '0';
     
     return `
-      <section class="bg-white border border-border-subtle rounded-[12px] flex flex-col overflow-hidden shadow-sm order-3">
-        <div class="px-4 py-3 bg-[#FAFAFA] border-b border-border-subtle text-[0.75rem] font-bold text-text-sub uppercase tracking-wider">
+      <section class="panel" style="order: 3;">
+        <div class="panel-header">
           Tournament Stats
         </div>
-        <div class="p-6 space-y-6">
-          <div class="grid grid-cols-2 gap-2">
-            <div class="p-4 bg-[#F3F4F6] rounded-lg text-center">
-              <div class="text-2xl font-bold text-text-main">${completed.length}</div>
-              <div class="text-[0.65rem] font-bold text-text-sub uppercase tracking-widest">Games Played</div>
+        <div class="panel-body">
+          <div class="stats-grid">
+            <div class="stat-tile">
+              <div class="stat-value">${completed.length}</div>
+              <div class="stat-label">Games Played</div>
             </div>
-            <div class="p-4 bg-[#F3F4F6] rounded-lg text-center">
-              <div class="text-2xl font-bold text-text-main">${avgPts}</div>
-              <div class="text-[0.65rem] font-bold text-text-sub uppercase tracking-widest">Avg Pts/GM</div>
+            <div class="stat-tile">
+              <div class="stat-value">${avgPts}</div>
+              <div class="stat-label">Avg Pts/GM</div>
             </div>
           </div>
 
-          <div class="space-y-2 pt-4">
-            <div class="text-[0.75rem] font-bold text-text-sub uppercase tracking-wider mb-2">Live Insights</div>
-            <div class="px-4 py-3 border border-border-subtle rounded-lg flex items-center justify-between">
-              <span class="text-xs font-semibold text-text-sub">Total Points Scored</span>
-              <span class="text-sm font-bold text-text-main">${totalPoints}</span>
-            </div>
-            <div class="px-4 py-3 border border-border-subtle rounded-lg flex items-center justify-between">
-              <span class="text-xs font-semibold text-text-sub">Current Leader</span>
-              <span class="text-sm font-bold text-accent">${standings[0]?.teamName || 'N/A'}</span>
+          <div class="insights-section">
+            <div class="panel-header" style="background: transparent; border: none; padding: 0; margin-bottom: 0.75rem;">Live Insights</div>
+            <div class="insights-list">
+              <div class="insight-item">
+                <span class="insight-label">Total Points</span>
+                <span class="insight-value">${totalPoints}</span>
+              </div>
+              <div class="insight-item">
+                <span class="insight-label">Current Leader</span>
+                <span class="insight-value text-accent">${standings[0]?.teamName || 'N/A'}</span>
+              </div>
             </div>
           </div>
         </div>

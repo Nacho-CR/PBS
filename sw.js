@@ -1,14 +1,12 @@
-const staticCacheName = 'site-static-v2';
+const staticCacheName = 'site-static-v3';
 const assets = [
   '/',
   'index.html',
   'app.js',
-  'script.js',
-  'materialize.min.js',
   'style.css',
-  'materialize.min.css',
-  'https://fonts.googleapis.com/icon?family=Material+Icons',
-  'https://fonts.gstatic.com/s/materialicons/v47/flUhRq6tzZclQEJ-Vdg-IuiaDsNcIhQ8tQ.woff2'
+  'manifest.json',
+  'assets/icon-192.png',
+  'assets/icon-512.png'
 ];
 
 // install event
