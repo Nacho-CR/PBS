@@ -1,9 +1,9 @@
-const staticCacheName = 'site-static-v3';
+const staticCacheName = 'site-static-v4';
 const assets = [
   '/',
   'index.html',
   'app.js',
-  'style.css',
+  'style.css', 
   'manifest.json',
   'assets/icon-192.png',
   'assets/icon-512.png'

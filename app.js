@@ -153,7 +153,7 @@ class App {
       currentStep: 'setup',
       tournament: null,
       // Setup Form State
-      name: 'Evelyn\'s Picklers',
+      name: 'Weekend Picklers',
       type: 'team',
       format: 'round-robin',
       players: [],
@@ -195,11 +195,19 @@ class App {
 
   // Actions
   addPlayer() {
-    const name = this.state.newPlayerName.trim();
-    if (!name) return;
-    const player = { id: crypto.randomUUID(), name };
+    const rawValue = this.state.newPlayerName;
+    if (!rawValue.trim()) return;
+
+    // Split by comma or new line
+    const names = rawValue.split(/,|\n/).map(n => n.trim()).filter(n => n.length > 0);
+    
+    const newPlayers = names.map(name => ({
+      id: crypto.randomUUID(),
+      name
+    }));
+
     this.setState({
-      players: [...this.state.players, player],
+      players: [...this.state.players, ...newPlayers],
       newPlayerName: ''
     });
   }
@@ -211,11 +219,20 @@ class App {
   }
 
   addTeam() {
-    const name = this.state.newTeamName.trim();
-    if (!name) return;
-    const team = { id: crypto.randomUUID(), name, playerIds: [] };
+    const rawValue = this.state.newTeamName;
+    if (!rawValue.trim()) return;
+
+    // Split by comma or new line
+    const names = rawValue.split(/,|\n/).map(n => n.trim()).filter(n => n.length > 0);
+    
+    const newTeams = names.map(name => ({
+      id: crypto.randomUUID(),
+      name,
+      playerIds: []
+    }));
+
     this.setState({
-      teams: [...this.state.teams, team],
+      teams: [...this.state.teams, ...newTeams],
       newTeamName: ''
     });
   }
@@ -343,7 +360,7 @@ class App {
   }
 
   renderHeader() {
-    const name = this.state.tournament ? this.state.tournament.name : "Pickle Score";
+    const name = this.state.tournament ? this.state.tournament.name : "PICKLEPRO TOURNEY";
     return `
       <header class="header">
         <div class="header-logo">
@@ -433,9 +450,10 @@ class App {
           </div>
           <div class="panel-body" style="display: flex; flex-direction: column;">
             <div class="form-group" style="margin-bottom: 1.5rem;">
-              <div style="display: flex; gap: 0.5rem;">
-                <input type="text" id="new-item-name" value="${isTeam ? newTeamName : newPlayerName}" class="input" style="flex: 1;" placeholder="${isTeam ? 'Team Name' : 'Player Name'}">
-                <button id="add-item-btn" class="btn btn-secondary">Add</button>
+              <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                <label class="label" style="font-size: 0.75rem; color: var(--text-sub);">Enter names separated by commas or new lines</label>
+                <textarea id="new-item-name" class="input" style="flex: 1; min-height: 80px; resize: vertical;" placeholder="${isTeam ? 'e.g. Team Alpha, Team Beta\nTeam Gamma' : 'e.g. John Doe, Jane Smith\nBob Wilson'}">${isTeam ? newTeamName : newPlayerName}</textarea>
+                <button id="add-item-btn" class="btn btn-secondary">Add List</button>
               </div>
             </div>
 
@@ -630,11 +648,6 @@ class App {
             this.state.newTeamName = e.target.value;
           } else {
             this.state.newPlayerName = e.target.value;
-          }
-        };
-        newItemInput.onkeypress = (e) => {
-          if (e.key === 'Enter') {
-            this.state.type === 'team' ? this.addTeam() : this.addPlayer();
           }
         };
       }
